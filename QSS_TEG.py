@@ -33,9 +33,11 @@ def ETA(start_time,time_par,final_time_par,error_par,it):
     print('Error = ',str(error_par))
 
     if write_increment == time_par+1:
-        print('in ', str(it),' iterations; ',str( -((elapsed_time)*( 1/write_increment)*(time_par-final_time_par))/(60*60) ),'hrs remaining (estimated)','\n')
+        print('in ', str(it),' iterations; ',str( -((elapsed_time)*( 1/write_increment)*(time_par-final_time_par))/(60*60) ),
+              'hrs remaining (estimated)','\n')
     else:
-        print('in ', str(it),' iterations for ',str(elapsed_time-timeElapsed1_old),'s; ETA: ',str( -((elapsed_time-timeElapsed1_old)*( 1/write_increment)*(time_par-final_time_par))/(60*60) ),'hrs','\n')
+        print('in ', str(it),' iterations for ',str(elapsed_time-timeElapsed1_old),'s; ETA: ',
+              str( -((elapsed_time-timeElapsed1_old)*( 1/write_increment)*(time_par-final_time_par))/(60*60) ),'hrs','\n')
     
     
     print('Clock Time = ', str(elapsed_time),' s')
@@ -116,7 +118,8 @@ def R_cooler_water (rho_water, k_water,k_Al, Cp_water,visc_water, m_cooler, dx, 
     fRe =((12/((ee**0.5)*(1+ee)*(1-((192*ee)/(np.pi**5))*np.tanh(np.pi/(2*ee)))))**2+(3.44/Z_plus **0.5)**2)**0.5 
 
     #Nusselt number
-    Nu_water =((((C4*fPr )/(Z_star **0.5))**m_coef_cool )+((((C2*C3*(fRe /Z_star )**(1/3))**5)+(C1*(fRe /(8*(np.pi**0.5)*(ee**Par_forma))))**5)**(m_coef_cool /5)))**(1/m_coef_cool ) 
+    Nu_water =((((C4*fPr )/(Z_star **0.5))**m_coef_cool )+((((C2*C3*(fRe /Z_star )**(1/3))**5)+\
+        (C1*(fRe /(8*(np.pi**0.5)*(ee**Par_forma))))**5)**(m_coef_cool /5)))**(1/m_coef_cool ) 
     # [Wm2/K] heat transfer coefficient
     h_water =(Nu_water *k_water )/D_charact_cooler 
 
@@ -194,12 +197,8 @@ def R_Exhaust (air_viscosity,air_conductivity,air_specific_heat,m_air, N_HE):
     Re=(4/np.pi)*(((m_air/number_of_channels))/(air_viscosity*D_hidraulic))
 
     #Colburn factor (j)
-    j=(0.6522*(Re**-0.5403)*(alfa_geo**-0.1541)*(sigma_geo**0.1499)*(gama_geo**-0.0678))*(1+(5.269*10**-5)*(Re**1.34)*(alfa_geo**0.504)*(sigma_geo**0.456)*(gama_geo**-1.055))**0.1
-
-    #Frication factor (f)
-    #f=(9.6243*(Re**(-0.7422))*(alfa_geo**(-0.1856))*(sigma_geo**(0.3053))*(gama_geo**(-0.2659)))*(1+(7.669*(10**-8))*(Re**(4.429))*(alfa_geo**(0.92))*(sigma_geo**(3.767))*(gama_geo**(0.236)))**(0.1)
-    #Performance factor j/f
-    #performance_factor=j/f
+    j=(0.6522*(Re**-0.5403)*(alfa_geo**-0.1541)*(sigma_geo**0.1499)*(gama_geo**-0.0678))*\
+        (1+(5.269*10**-5)*(Re**1.34)*(alfa_geo**0.504)*(sigma_geo**0.456)*(gama_geo**-1.055))**0.1
 
     #Prandtl number
     Pr=(air_specific_heat*air_viscosity)/air_conductivity
@@ -209,13 +208,6 @@ def R_Exhaust (air_viscosity,air_conductivity,air_specific_heat,m_air, N_HE):
 
     #Heat tranfer coefficient [W/m2K]
     h_air=(air_conductivity*Nu)/D_hidraulic
-
-    #air velocity [m/s]
-    #u_air(x)=((m(1,1))/number_of_channels)/(air_density*h*s)
-    #Pressure drop (dP) [Pa]
-    #dP(x)=(0.5*air_density*(u_air(x)*u_air(x))*dx*f(x))/D_hidraulic
-
-    #Fin efficiency coefficient
 
     m_fin=((h_air*2*(tick+l))/(k_ss*tick*l))**0.5
 
@@ -430,7 +422,8 @@ for t in range(len(data)-1): # -1 accounts for the title
             [visc_liq, rho_liq, k_water,Cp_water] = Water_Properties(Temp_cold)
             rho_water = rho_liq
             visc_water = visc_liq
-            R_cooler[x] = R_cooler_water (rho_water, k_water,k_Al, Cp_water,visc_water, m_cooler, dx, Nc,fin_widt,fin_heigt,channel_length)
+            R_cooler[x] = R_cooler_water (rho_water, k_water,k_Al, Cp_water,visc_water, m_cooler, dx, Nc,fin_widt,
+                                          fin_heigt,channel_length)
             ##################################################
 
             #### POWER CALCULATIONS ##########################
@@ -656,7 +649,8 @@ for t in range(len(data)-1): # -1 accounts for the title
     if ((t + 1) % 100) == 0:
         elapsed_time = time.time() - start_time
         ETA(start_time,t,N_time_steps,error_it,it)
-        print(t+1, " it: ", it, " error: ", error_it,"\n", "Elapsed_time: ",time.strftime("%H:%M:%S", time.gmtime(elapsed_time))," hh:mm:ss \n")
+        print(t+1, " it: ", it, " error: ", error_it,"\n", "Elapsed_time: ",time.strftime("%H:%M:%S", time.gmtime(elapsed_time)),
+              " hh:mm:ss \n")
         
 
     
