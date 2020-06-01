@@ -1,1 +1,1 @@
-C:\dev\THERMOSS\Quasi-steady-state-TEG/Results-2-1563458251
+C:\path\to\results
